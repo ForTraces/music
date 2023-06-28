@@ -39,12 +39,18 @@ export default {
             probeType: this.probeType,
             pullUpLoad: this.pullUpLoad
         })
-
-
-        // 3.监听上拉事件
-        // this.scroll.on('pullingUp', () => {
-        //     this.$emit('pullingUp')
-        // })
+        //监听滚动的位置
+        if (this.probeType === 2 || this.probeType === 3) {
+            this.scroll.on('scroll', position => {
+                this.$emit('scroll', position)
+            })
+        }
+        //监听上拉事件
+        if (this.pullUpLoad) {
+            this.scroll.on('pullingUp', () => {
+                this.$emit('pullingUp')
+            })
+        }
     },
 
     methods: {
@@ -65,9 +71,4 @@ export default {
 }
 </script>
 
-<style scoped>
-/* .wrapper1 {
-    height: 500px;
-    overflow: hidden;
-} */
-</style>
+<style scoped></style>

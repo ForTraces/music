@@ -17,6 +17,12 @@ export default {
         Swiper,
         SwiperItem
     },
+    props: {
+        banners: {
+            type: Array,
+            default: []
+        }
+    }
 
 }
 </script>

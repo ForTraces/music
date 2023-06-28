@@ -46,7 +46,7 @@ export default {
 
 <style>
 .nav-bar {
-    /* background: rebeccapurple; */
+    background: white;
     border-bottom: 1px solid #eee;
 }
 

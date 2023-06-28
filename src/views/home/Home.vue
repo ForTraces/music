@@ -6,14 +6,18 @@
         <div>购物街</div>
       </template>
     </nav-bar>
+    <!-- 内容 -->
+    <tab-control class="tab-control-top" :titles="['流行', '新款', '精选']" @tabItemClick="tabItemClick" ref="tabControl1"
+      v-show="isTabShow" />
     <scroll class="content1" ref="scroll" :probe-type="3" @scroll="contentScroll" :pull-up-load="true"
       @pullingUp="loadMore">
       <!-- 轮播图 -->
-      <home-swiper :banners="banners" />
+      <home-swiper :banners="banners" @swiperImgLoad="swiperImgLoad" />
       <!-- 推荐页 -->
       <recomment-view :recomments="recommends" />
       <feture-view />
-      <tab-control :titles="['流行', '新款', '精选']" class="tab-control" @tabClick="tabClick" />
+      <tab-control v-show="!isTabShow" class="tab-control-bot" :titles="['流行', '新款', '精选']" @tabItemClick="tabItemClick"
+        ref="tabControl2" />
       <good-list :goods="showGoods" />
       <!-- <ul>
         <li class="testPic" v-for="i in 20" @click="goodClick">我是商品 第 {{ i }} 个</li>
@@ -56,6 +60,10 @@ export default {
         "sell": { page: 0, list: [] },
       },
       currentType: 'pop',
+      tabOffsetTop: 0,
+      isTabShow: false,
+      saveY: 0,
+      itemImgLister: null
     }
   },
   created() {
@@ -82,9 +90,6 @@ export default {
       this.$router.push('/detail/' + "1123")
 
     },
-    contentScroll(position) {
-      this.isShowBackTop = (-position.y) > 1000
-    },
     loadMore() {
       this.getHomeGoods(this.currentType)
     },
@@ -105,7 +110,7 @@ export default {
       })
     },
     // 实践监听
-    tabClick(index) {
+    tabItemClick(index) {
       switch (index) {
         case 0:
           this.currentType = 'pop'
@@ -117,6 +122,17 @@ export default {
           this.currentType = 'sell'
           break;
       }
+      this.$refs.tabControl1.currentIndex = index;
+      this.$refs.tabControl2.currentIndex = index;
+    },
+    // 滚动
+    contentScroll(position) {
+      // this.isShowBackTop = (-position.y) > 500;
+      this.isTabShow = (-position.y) > this.tabOffsetTop - 44;
+    },
+    swiperImgLoad() {
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
+      // console.log(this.tabOffsetTop);
     }
 
   }
@@ -140,9 +156,10 @@ export default {
   z-index: 9;
 }
 
-.tab-control {
-  position: sticky;
-  top: 44px;
+.tab-control-top {
+  position: relative;
+  /* top: 44px; */
+  z-index: 9;
 }
 
 .content1 {

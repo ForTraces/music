@@ -27,9 +27,18 @@ export default {
         }
 
     },
+    data() {
+        return {
+            isLoad: false
+        }
+    },
     methods: {
         imgaeLoad() {
-            this.$eventBus.emit('imageItemLoad')
+            if (!this.isLoad) {
+                this.$emit('swiperImgLoad')
+                this.$eventBus.emit('imageItemLoad')
+                this.isLoad = true
+            }
 
 
         }

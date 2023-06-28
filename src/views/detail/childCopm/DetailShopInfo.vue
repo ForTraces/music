@@ -1,7 +1,7 @@
 <template>
     <div class="detail-shop-info">
         <div class="shop-name-info">
-            <img :src="shop.shopLogo" alt="" class="shop-img">
+            <img :src="require('@/assets/img/detail/' + shop.shopLogo)" alt="" class="shop-img">
             <div>{{ shop.name }}</div>
         </div>
         <div class="shop-other-info">
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'DetailShopInfo',
     props: {
@@ -50,6 +51,11 @@ export default {
             if (value < 10000) {
                 return (value / 10000).toFixed(1) + '万'
             }
+        }
+    },
+    methods: {
+        getImage(img) {
+            return require('@/assets/img/detail/' + shop.shopLogo)
         }
     }
 
@@ -84,11 +90,13 @@ export default {
 }
 
 .shop-other-info .shop-other-item {
-    flex: 1;
+    /* flex: 1; */
 }
 
 .shop-other-info .shop-other-sell {
     border-right: 1px solid #ececec;
+    /* background: red; */
+    width: 50%;
 }
 
 .shop-other-info .shop-other-sell div {
@@ -97,13 +105,17 @@ export default {
 }
 
 .shop-other-info .shop-other-right {
+    /* background: rebeccapurple; */
+    text-align: right;
     padding-left: 40px;
+    /* padding-right: 20px; */
 }
 
 .shop-other-info .shop-other-right .score {
     display: inline-block;
     width: 30px;
     color: #006666;
+    margin-right: 5px;
 }
 
 .shop-other-info .shop-other-right .score .active {
